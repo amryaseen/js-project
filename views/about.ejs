@@ -1,0 +1,12 @@
+<%- include('./partials/header') %>
+<!-- Project description, team info, problem context -->
+<h1>About This Project</h1>
+<p>This project aims to solve the problem of expensive university textbooks by creating a platform where students can exchange used books directly with each other.</p>
+<h3>Team Members:</h3>
+<ul>
+<% team.forEach(function(member) { %>
+<li><%= member %></li>
+<% }); %>
+</ul>
+<%- include('./partials/footer') %>
+ 

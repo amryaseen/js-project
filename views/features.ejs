@@ -1,0 +1,13 @@
+<%- include('./partials/header') %>
+<!-- Lists app features/books with dynamic data -->
+<h1>Available Books</h1>
+<div class="books-list">
+<% books.forEach(function(book) { %>
+<div class="book-card">
+<h4><%= book.title %></h4>
+<p>Subject: <%= book.subject %> | Price: <%= book.price %> JD</p>
+<a href="/book/<%= book.id %>">View Details</a>
+</div>
+<% }); %>
+</div>
+<%- include('./partials/footer') %>
