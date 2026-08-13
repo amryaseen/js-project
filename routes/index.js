@@ -94,7 +94,7 @@ router.get('/book/:id', (req, res) => {
 });
 // Register page - GET (display the form)
 router.get('/register', (req, res) => {
- res.render('register', { error: null, name:'' , email:'' });
+ res.render('register', { error: null, name: '', email: '' });
 });
 
 
@@ -106,20 +106,20 @@ router.post('/register', (req, res) => {
  
  // Basic validation
  if (!name || !email || !password) {
-   return res.render('register', { error: 'All fields are required.' });
+   return res.render('register', { error: 'All fields are required.', name, email });
  }
  if (!email.includes('@')) {
-   return res.render('register', { error: 'Please enter a valid email.' });
+   return res.render('register', { error: 'Please enter a valid email.', name, email });
  }
  if (password.length < 6) {
-   return res.render('register', { error: 'Password must be at least 6 characters.' });
+   return res.render('register', { error: 'Password must be at least 6 characters.', name, email });
  }
  
  
  // Check if email already exists
  const existingUser = users.find(u => u.email === email);
  if (existingUser) {
-   return res.render('register', { error: 'This email is already registered.' });
+   return res.render('register', { error: 'This email is already registered.', name, email });
  }
 
 
@@ -127,6 +127,42 @@ router.post('/register', (req, res) => {
  users.push({ name, email, password });
  // Redirect to login page after successful registration
  res.redirect('/login');
+});
+
+// Login page - GET (display the form)
+router.get('/login', (req, res) => {
+ res.render('login', { error: null, email: '' });
+});
+
+// Login page - POST (process the form and create a session)
+router.post('/login', (req, res) => {
+ const { email, password } = req.body;
+
+ if (!email || !password) {
+   return res.render('login', { error: 'All fields are required.', email: email || '' });
+ }
+
+ const user = users.find(u => u.email === email && u.password === password);
+
+ if (!user) {
+   return res.render('login', { error: 'Invalid email or password.', email });
+ }
+
+ req.session.user = {
+   name: user.name,
+   email: user.email
+ };
+
+ req.session.save(() => {
+   res.redirect('/');
+ });
+});
+
+// Logout
+router.get('/logout', (req, res) => {
+ req.session.destroy(() => {
+   res.redirect('/');
+ });
 });
 
 
