@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 //books inf
-
+ 
 const books = [
 
   { id: 1, title: 'Modern Programming Languages', subject: 'CS101', price: 5 },
@@ -16,7 +16,8 @@ const books = [
   { id: 3, title: 'Linear algebra ', subject: 'MATH150', price: 4 },
 
 ];
-
+//Temporary in memory user storage(will move in mongodb phase3)
+const users=[];
 
 
 
@@ -91,6 +92,41 @@ router.get('/book/:id', (req, res) => {
   res.render('item-detail', { book: book });
 
 });
+// Register page - GET (display the form)
+router.get('/register', (req, res) => {
+ res.render('register', { error: null, name:'' , email:'' });
+});
 
+
+// Register page - POST (process the form)
+router.post('/register', (req, res) => {
+ const { name, email, password } = req.body;
+ 
+ 
+ 
+ // Basic validation
+ if (!name || !email || !password) {
+   return res.render('register', { error: 'All fields are required.' });
+ }
+ if (!email.includes('@')) {
+   return res.render('register', { error: 'Please enter a valid email.' });
+ }
+ if (password.length < 6) {
+   return res.render('register', { error: 'Password must be at least 6 characters.' });
+ }
+ 
+ 
+ // Check if email already exists
+ const existingUser = users.find(u => u.email === email);
+ if (existingUser) {
+   return res.render('register', { error: 'This email is already registered.' });
+ }
+
+
+ // Save the new user
+ users.push({ name, email, password });
+ // Redirect to login page after successful registration
+ res.redirect('/login');
+});
 module.exports = router;
  
