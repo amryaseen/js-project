@@ -1,0 +1,31 @@
+<%- include('./partials/header') %>
+<!-- Search form using GET to filter displayed results -->
+
+
+<h1>Search Books</h1>
+<form action="/search" method="GET">
+<label for="subject">Search by subject:</label>
+<input type="text" id="subject" name="subject" value="<%= searchTerm %>" placeholder="e.g. CS101">
+<button type="submit">Search</button>
+</form>
+<div class="books-list">
+
+
+    <% if (books.length === 0) { %>
+<p>No books found matching your search.</p>
+<% } else { %>
+<% books.forEach(function(book) { %>
+
+
+<div class="book-card">
+<h4><%= book.title %></h4>
+<p>Subject: <%= book.subject %> | Price: <%= book.price %> JD</p>
+<a href="/book/<%= book.id %>">View Details</a>
+</div>
+<% }); %>
+<% } %>
+</div>
+<%- include('./partials/footer') %>
+
+//git commit -m "Add Register page with validation and sticky form"
+ 

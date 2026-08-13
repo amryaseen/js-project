@@ -128,5 +128,36 @@ router.post('/register', (req, res) => {
  // Redirect to login page after successful registration
  res.redirect('/login');
 });
+
+
+
+
+
+
+// Search/Filter page uses GET with query string to filter books
+
+router.get('/search', (req, res) => {
+
+  const searchTerm = req.query.subject;
+
+ 
+  let results = books;
+
+  if (searchTerm) {
+
+    results = books.filter(book =>
+
+      book.subject.toLowerCase().includes(searchTerm.toLowerCase())
+
+    );
+
+  }
+
+  res.render('search', { books: results, searchTerm: searchTerm || '' });
+
+});
+ 
+
+
 module.exports = router;
  
