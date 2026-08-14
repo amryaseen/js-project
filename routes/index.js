@@ -165,6 +165,30 @@ router.get('/logout', (req, res) => {
  });
 });
 
+// Cookie preference page - GET (read cookies)
+router.get('/cookie-preference', (req, res) => {
+ res.render('cookie-preference', {
+   theme: req.cookies.theme || 'light',
+   language: req.cookies.language || 'en',
+   saved: req.query.saved || ''
+ });
+});
+
+// Cookie preference page - POST (set cookies)
+router.post('/cookie-preference', (req, res) => {
+ const { theme, language } = req.body;
+
+ res.cookie('theme', theme, {
+   maxAge: 7 * 24 * 60 * 60 * 1000
+ });
+
+ res.cookie('language', language, {
+   maxAge: 7 * 24 * 60 * 60 * 1000
+ });
+
+ res.redirect('/cookie-preference?saved=1');
+});
+
 
 
 
