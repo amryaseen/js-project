@@ -216,8 +216,42 @@ router.get('/search', (req, res) => {
   res.render('search', { books: results, searchTerm: searchTerm || '' });
 
 });
- 
+/// Middleware to check if user is logged in
 
+function isAuthenticated(req, res, next) {
+
+  if (req.session && req.session.user) {
+
+    return next();
+
+  }
+
+  res.redirect('/login');
+
+}
+
+// Dashboard page - only accessible to logged-in users
+
+router.get('/dashboard', isAuthenticated, (req, res) => {
+
+  const myListedBooksCount = 3;
+
+  const myRequestsCount = 2;
+
+  res.render('dashboard', {
+
+    title: 'User Dashboard - Book Exchange',
+
+    user: req.session.user,
+
+    myListedBooksCount: myListedBooksCount,
+
+    myRequestsCount: myRequestsCount
+
+  });
+
+});
+ 
 
 module.exports = router;
  
