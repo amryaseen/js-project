@@ -1,24 +1,58 @@
 <%- include('./partials/header') %>
-<!-- User registration form with server-side validation -->
-<h1>Create an Account</h1>
-<% if (error) { %>
-<p style="color: red;"><%= error %></p>
-<% } %>
-<form action="/register" method="POST">
-<div>
-<label for="name">Name:</label>
-<input type="text" id="name" name="name" value="<%= typeof name !== 'undefined' ? name : '' %>">
+
+<!-- حاوية رئيسية لتوسيط المحتوى وإعطائه هوامش -->
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <!-- تحديد عرض الفورم بالشاشات المتوسطة والكبيرة -->
+        <div class="col-md-6 col-lg-5">
+            
+            <!-- استخدام كلاسات الـ Card -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0">Create an Account</h4>
+                </div>
+                
+                <div class="card-body p-4">
+                    
+                    <!-- تحويل رسالة الخطأ القديمة الحمراء إلى Alert مرتب -->
+                    <% if (error) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= error %>
+                        </div>
+                    <% } %>
+
+                    <!-- الفورم مع إضافة كلاسات form-control و mb-3 -->
+                    <form action="/register" method="POST">
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-bold">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" value="<%= typeof name !== 'undefined' ? name : '' %>">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-bold">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                        
+                        <!-- زر التسجيل باستخدام كلاسات btn -->
+                        <button type="submit" class="btn btn-primary w-100 py-2">Register</button>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="text-center">
+                        <p class="mb-0 text-muted">Already have an account? <a href="/login" class="text-primary text-decoration-none fw-bold">Login here</a></p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
-<div>
-<label for="email">Email:</label>
-<input type="email" id="email" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>">
-</div>
-<div>
-<label for="password">Password:</label>
-<input type="password" id="password" name="password">
-</div>
-<button type="submit">Register</button>
-</form>
-<p>Already have an account? <a href="/login">Login here</a></p>
+
 <%- include('./partials/footer') %>
- 

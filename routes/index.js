@@ -1,257 +1,179 @@
 const express = require('express');
-
 const router = express.Router();
 
 
-
-
-//books inf
- 
 const books = [
-
   { id: 1, title: 'Modern Programming Languages', subject: 'CS101', price: 5 },
-
   { id: 2, title: 'Network Basics', subject: 'NET201', price: 7 },
-
   { id: 3, title: 'Linear algebra ', subject: 'MATH150', price: 4 },
-
 ];
-//Temporary in memory user storage(will move in mongodb phase3)
-const users=[];
 
 
-
+const users = [];
 
 // Home
-
 router.get('/', (req, res) => {
-
-  res.render('index', { title: '' });
-
+  
+  res.render('index', { title: '', currentPage: 'home' });
 });
-
-
-
-
-
-
 
 // About
-
 router.get('/about', (req, res) => {
-
+ 
   res.render('about', {
-
-    team: ['Amr ', 'Hamza', 'Mohannad', ' Rayan', 'Yazan']
-
+    team: ['Amr', 'Hamza', 'Mohannad', 'Rayan', 'Yazan'],
+    currentPage: 'about'
   });
-
 });
 
-
-
-
-
-
-
-
-
-// Features
 
 router.get('/features', (req, res) => {
 
-  res.render('features', { books: books });
-
+  res.render('features', { books: books, currentPage: 'books' });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-// Item Detail
 
 router.get('/book/:id', (req, res) => {
-
   const bookId = parseInt(req.params.id);
-
   const book = books.find(b => b.id === bookId);
-
   if (!book) {
-
-    return res.status(404).render('404');
-
+    
+    return res.status(404).render('404', { currentPage: '' });
   }
 
-  res.render('item-detail', { book: book });
-
+  res.render('item-detail', { book: book, currentPage: 'books' });
 });
-// Register page - GET (display the form)
+
+
 router.get('/register', (req, res) => {
- res.render('register', { error: null, name: '', email: '' });
+  
+  res.render('register', { error: null, name: '', email: '', currentPage: 'register' });
 });
 
 
-// Register page - POST (process the form)
 router.post('/register', (req, res) => {
- const { name, email, password } = req.body;
- 
- 
- 
- // Basic validation
- if (!name || !email || !password) {
-   return res.render('register', { error: 'All fields are required.', name, email });
- }
- if (!email.includes('@')) {
-   return res.render('register', { error: 'Please enter a valid email.', name, email });
- }
- if (password.length < 6) {
-   return res.render('register', { error: 'Password must be at least 6 characters.', name, email });
- }
- 
- 
- // Check if email already exists
- const existingUser = users.find(u => u.email === email);
- if (existingUser) {
-   return res.render('register', { error: 'This email is already registered.', name, email });
- }
+  const { name, email, password } = req.body;
+
+  
+  if (!name || !email || !password) {
+    return res.render('register', { error: 'All fields are required.', name, email, currentPage: 'register' });
+  }
+  if (!email.includes('@')) {
+    return res.render('register', { error: 'Please enter a valid email.', name, email, currentPage: 'register' });
+  }
+  if (password.length < 6) {
+    return res.render('register', { error: 'Password must be at least 6 characters.', name, email, currentPage: 'register' });
+  }
 
 
- // Save the new user
- users.push({ name, email, password });
- // Redirect to login page after successful registration
- res.redirect('/login');
+  const existingUser = users.find(u => u.email === email);
+  if (existingUser) {
+    return res.render('register', { error: 'This email is already registered.', name, email, currentPage: 'register' });
+  }
+
+
+  users.push({ name, email, password });
+  // Redirect to login page after successful registration
+  res.redirect('/login');
 });
 
-// Login page - GET (display the form)
+
 router.get('/login', (req, res) => {
- res.render('login', { error: null, email: '' });
+  // إضافة currentPage: 'login'
+  res.render('login', { error: null, email: '', currentPage: 'login' });
 });
 
-// Login page - POST (process the form and create a session)
+
 router.post('/login', (req, res) => {
- const { email, password } = req.body;
+  const { email, password } = req.body;
 
- if (!email || !password) {
-   return res.render('login', { error: 'All fields are required.', email: email || '' });
- }
+  if (!email || !password) {
+    return res.render('login', { error: 'All fields are required.', email: email || '', currentPage: 'login' });
+  }
 
- const user = users.find(u => u.email === email && u.password === password);
+  const user = users.find(u => u.email === email && u.password === password);
 
- if (!user) {
-   return res.render('login', { error: 'Invalid email or password.', email });
- }
+  if (!user) {
+    return res.render('login', { error: 'Invalid email or password.', email, currentPage: 'login' });
+  }
 
- req.session.user = {
-   name: user.name,
-   email: user.email
- };
+  req.session.user = {
+    name: user.name,
+    email: user.email
+  };
 
- req.session.save(() => {
-   res.redirect('/');
- });
+  req.session.save(() => {
+    res.redirect('/');
+  });
 });
 
 // Logout
 router.get('/logout', (req, res) => {
- req.session.destroy(() => {
-   res.redirect('/');
- });
+  req.session.destroy(() => {
+    res.redirect('/');
+  });
 });
 
-// Cookie preference page - GET (read cookies)
+
 router.get('/cookie-preference', (req, res) => {
- res.render('cookie-preference', {
-   theme: req.cookies.theme || 'light',
-   language: req.cookies.language || 'en',
-   saved: req.query.saved || ''
- });
+  // إضافة currentPage: 'cookie'
+  res.render('cookie-preference', {
+    theme: req.cookies.theme || 'light',
+    language: req.cookies.language || 'en',
+    saved: req.query.saved || '',
+    currentPage: 'cookie'
+  });
 });
 
-// Cookie preference page - POST (set cookies)
+
 router.post('/cookie-preference', (req, res) => {
- const { theme, language } = req.body;
+  const { theme, language } = req.body;
 
- res.cookie('theme', theme, {
-   maxAge: 7 * 24 * 60 * 60 * 1000
- });
-
- res.cookie('language', language, {
-   maxAge: 7 * 24 * 60 * 60 * 1000
- });
-
- res.redirect('/cookie-preference?saved=1');
-});
-
-
-
-
-
-
-// Search/Filter page uses GET with query string to filter books
-
-router.get('/search', (req, res) => {
-
-  const searchTerm = req.query.subject;
-
- 
-  let results = books;
-
-  if (searchTerm) {
-
-    results = books.filter(book =>
-
-      book.subject.toLowerCase().includes(searchTerm.toLowerCase())
-
-    );
-
-  }
-
-  res.render('search', { books: results, searchTerm: searchTerm || '' });
-
-});
-/// Middleware to check if user is logged in
-
-function isAuthenticated(req, res, next) {
-
-  if (req.session && req.session.user) {
-
-    return next();
-
-  }
-
-  res.redirect('/login');
-
-}
-
-// Dashboard page - only accessible to logged-in users
-
-router.get('/dashboard', isAuthenticated, (req, res) => {
-
-  const myListedBooksCount = 3;
-
-  const myRequestsCount = 2;
-
-  res.render('dashboard', {
-
-    title: 'User Dashboard - Book Exchange',
-
-    user: req.session.user,
-
-    myListedBooksCount: myListedBooksCount,
-
-    myRequestsCount: myRequestsCount
-
+  res.cookie('theme', theme, {
+    maxAge: 7 * 24 * 60 * 60 * 1000
   });
 
+  res.cookie('language', language, {
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  });
+
+  res.redirect('/cookie-preference?saved=1');
 });
- 
+
+
+router.get('/search', (req, res) => {
+  const searchTerm = req.query.subject;
+
+  let results = books;
+  if (searchTerm) {
+    results = books.filter(book =>
+      book.subject.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+  
+  res.render('search', { books: results, searchTerm: searchTerm || '', currentPage: 'search' });
+});
+
+
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.user) {
+    return next();
+  }
+  res.redirect('/login');
+}
+
+router.get('/dashboard', isAuthenticated, (req, res) => {
+  const myListedBooksCount = 3;
+  const myRequestsCount = 2;
+  
+  
+  res.render('dashboard', {
+    title: 'User Dashboard - Book Exchange',
+    user: req.session.user,
+    myListedBooksCount: myListedBooksCount,
+    myRequestsCount: myRequestsCount,
+    currentPage: 'dashboard'
+  });
+});
 
 module.exports = router;
- 

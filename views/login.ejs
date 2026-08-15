@@ -1,19 +1,48 @@
 <%- include('./partials/header') %>
-<!-- Basic user login form with session creation on success -->
-<h1>Login</h1>
-<% if (error) { %>
-<p style="color: red;"><%= error %></p>
-<% } %>
-<form action="/login" method="POST">
-<div>
-<label for="email">Email:</label>
-<input type="email" id="email" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>">
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-success text-white text-center py-3">
+                    <h4 class="mb-0">Login</h4>
+                </div>
+                
+                <div class="card-body p-4">
+                    
+                    <!-- تحويل سطر الخطأ الأحمر العادي إلى Alert من البوتستراب -->
+                    <% if (error) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= error %>
+                        </div>
+                    <% } %>
+
+                    <form action="/login" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-bold">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success w-100 py-2">Login</button>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="text-center">
+                        <p class="mb-0 text-muted">Don't have an account? <a href="/register" class="text-success text-decoration-none fw-bold">Register here</a></p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
-<div>
-<label for="password">Password:</label>
-<input type="password" id="password" name="password">
-</div>
-<button type="submit">Login</button>
-</form>
-<p>Don't have an account? <a href="/register">Register here</a></p>
+
 <%- include('./partials/footer') %>
