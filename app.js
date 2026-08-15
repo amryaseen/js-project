@@ -1,9 +1,11 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const app = express();
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}))
+app.use(cookieParser());
 app.use(session({
  secret: 'book-exchange-secret',
  resave: false,
@@ -11,6 +13,8 @@ app.use(session({
 }));
 app.use((req, res, next) => {
  res.locals.user = req.session.user || null;
+ res.locals.theme = req.cookies.theme || 'light';
+ res.locals.language = req.cookies.language || 'en';
  next();
 });
 const indexRoutes = require('./routes/index');

@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="<%= language === 'ar' ? 'ar' : 'en' %>" dir="<%= language === 'ar' ? 'rtl' : 'ltr' %>">
 <head>
 <meta charset="UTF-8">
 <title>Browse Books  </title>
 <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="<%= theme === 'dark' ? 'theme-dark' : 'theme-light' %>">
 
 <nav>
-<a href="/">Home</a>
-<a href="/about">About</a>
-<a href="/features">Books</a>
-<a href="/search">Search</a>
-<a href="/login">Login</a>
-<a href="/register">Register</a>
+<a href="/"><%= language === 'ar' ? 'الرئيسية' : 'Home' %></a>
+<a href="/about"><%= language === 'ar' ? 'حول' : 'About' %></a>
+<a href="/features"><%= language === 'ar' ? 'الكتب' : 'Books' %></a>
+<a href="/search"><%= language === 'ar' ? 'بحث' : 'Search' %></a>
+<a href="/cookie-preference"><%= language === 'ar' ? 'الكوكيز' : 'Cookies' %></a>
+<a href="/login"><%= language === 'ar' ? 'تسجيل الدخول' : 'Login' %></a>
+<a href="/register"><%= language === 'ar' ? 'التسجيل' : 'Register' %></a>
 </nav>
