@@ -15,6 +15,7 @@ app.use((req, res, next) => {
  res.locals.user = req.session.user || null;
  res.locals.theme = req.cookies.theme || 'light';
  res.locals.language = req.cookies.language || 'en';
+ res.locals.t=require(`./lang/${res.locals.language}`)
  next();
 });
 const indexRoutes = require('./routes/index');

@@ -1,26 +1,25 @@
 <%- include('./partials/header') %>
-<!-- Basic cookie preference page -->
-<h1><%= language === 'ar' ? 'تفضيلات الكوكيز' : 'Cookie Preference' %></h1>
-<p><%= language === 'ar' ? 'المظهر الحالي: ' : 'Current theme: ' %><%= theme %></p>
-<p><%= language === 'ar' ? 'اللغة الحالية: ' : 'Current language: ' %><%= language %></p>
+<h1><%= t.cookiePrefTitle %></h1>
+<p><%= t.currentTheme %><%= theme %></p>
+<p><%= t.currentLanguage %><%= language %></p>
 <% if (saved) { %>
-<p style="color: green;"><%= language === 'ar' ? 'تم حفظ التفضيلات.' : 'Preferences saved.' %></p>
+<p style="color: green;"><%= t.preferencesSaved %></p>
 <% } %>
 <form action="/cookie-preference" method="POST">
 <div>
-<label for="theme"><%= language === 'ar' ? 'المظهر:' : 'Theme:' %></label>
+<label for="theme"><%= t.themeLabel %></label>
 <select id="theme" name="theme">
-<option value="light" <%= theme === 'light' ? 'selected' : '' %>><%= language === 'ar' ? 'فاتح' : 'Light' %></option>
-<option value="dark" <%= theme === 'dark' ? 'selected' : '' %>><%= language === 'ar' ? 'داكن' : 'Dark' %></option>
+<option value="light" <%= theme === 'light' ? 'selected' : '' %>><%= t.light %></option>
+<option value="dark" <%= theme === 'dark' ? 'selected' : '' %>><%= t.dark %></option>
 </select>
 </div>
 <div>
-<label for="language"><%= language === 'ar' ? 'اللغة:' : 'Language:' %></label>
+<label for="language"><%= t.languageLabel %></label>
 <select id="language" name="language">
-<option value="en" <%= language === 'en' ? 'selected' : '' %>><%= language === 'ar' ? 'إنجليزي' : 'English' %></option>
-<option value="ar" <%= language === 'ar' ? 'selected' : '' %>><%= language === 'ar' ? 'عربي' : 'Arabic' %></option>
+<option value="en" <%= language === 'en' ? 'selected' : '' %>><%= t.english %></option>
+<option value="ar" <%= language === 'ar' ? 'selected' : '' %>><%= t.arabic %></option>
 </select>
 </div>
-<button type="submit"><%= language === 'ar' ? 'حفظ التفضيلات' : 'Save Preferences' %></button>
+<button type="submit"><%= t.savePreferences %></button>
 </form>
 <%- include('./partials/footer') %>

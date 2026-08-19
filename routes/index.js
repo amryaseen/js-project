@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const en=require('../lang/en');
+const ar=require('../lang/ar');
 
 
 const books = [
@@ -46,6 +48,8 @@ router.get('/book/:id', (req, res) => {
 
 
 router.get('/register', (req, res) => {
+  const lang=req.cookies.language || 'en';
+  const t=lang == 'ar' ? ar:en;
   
   res.render('register', { error: null, name: '', email: '', currentPage: 'register' });
 });
@@ -53,7 +57,9 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
   const { name, email, password } = req.body;
-
+  const lang=req.cookies.language || 'en';
+  const t=lang == 'ar' ? ar:en;
+  
   
   if (!name || !email || !password) {
     return res.render('register', { error: 'All fields are required.', name, email, currentPage: 'register' });
@@ -86,7 +92,8 @@ router.get('/login', (req, res) => {
 
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
-
+  const lang=req.cookies.language || 'en';
+  const t=lang == 'ar' ? ar:en;
   if (!email || !password) {
     return res.render('login', { error: 'All fields are required.', email: email || '', currentPage: 'login' });
   }
@@ -137,7 +144,7 @@ router.post('/cookie-preference', (req, res) => {
     maxAge: 7 * 24 * 60 * 60 * 1000
   });
 
-  res.redirect('/cookie-preference?saved=1');
+  res.render('cookie-preference', {theme,language,saved:true});
 });
 
 
