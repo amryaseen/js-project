@@ -1,4 +1,4 @@
-const { subject, price, viewDetails, backToList, invalidCredentials } = require("./en");
+const { subject, price, viewDetails, backToList, invalidCredentials, login, dontHaveAccount, registerHere } = require("./en");
 
 module.exports = {
    cookiePrefTitle: 'تفضيلات الكوكيز',
@@ -56,4 +56,7 @@ noBooksAvailable: 'لا توجد كتب متاحة حاليًا.',
 notFoundTitle: '404 - الصفحة غير موجودة',
 notFoundMessage: 'الصفحة التي تبحث عنها غير موجودة.',
 backToHome: 'العودة للرئيسية',
+login:'تسجيل دخول',
+dontHaveAccount:'ليس لديك حساب؟',
+registerHere:'سجل هنا',
 };

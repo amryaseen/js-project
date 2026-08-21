@@ -65,5 +65,8 @@ noBooksAvailable: 'No books are currently available.',
 notFoundTitle: '404 - Page Not Found',
 notFoundMessage: "The page you're looking for doesn't exist.",
 backToHome: 'Back to Home',
+login : 'login',
+dontHaveAccount:'Do not have an account ',
+registerHere:'Register here',
 };
  
